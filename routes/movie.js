@@ -28,7 +28,19 @@ router.get('/between/:start_year/:end_year' , (req ,res)=>{   // Belirli aralikt
 
 
 router.get('/' , (req , res)=>{
- const promise =  Movie.find({});
+ const promise =  Movie.aggregate([
+     {
+         $lookup : {                //Join islemi yapiyoruz
+             from : 'directors',
+             localField: 'director_id',
+             foreignField: '_id',
+             as: 'director'
+         }
+     },
+     {
+         $unwind : '$director'
+     }
+ ]);
 
  promise.then((data)=>{                  //Tum filmleri listeleyen route
    res.json(data)

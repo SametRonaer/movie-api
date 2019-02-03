@@ -116,6 +116,41 @@ router.get('/:director_id' , (req ,res)=>{  //Belirli bir directorun bilgisini l
 
 
 
+router.put('/:director_id' , (req ,res , next)=>{  //Guncelleme route'u
+
+    const promise = Director.findByIdAndUpdate(
+        req.params.director_id ,
+        req.body,           //İlki guncelleme yapilacak film ikinci guncellenecek data
+        { new: true});
+
+    promise.then((director)=>{
+        if(!director)
+            next({message:'The director was not found' , code : 2345});
+
+        res.json(director);
+
+    }).catch((err)=>{
+        res.json(err);
+    });
+});
+
+
+router.delete('/:director_id' , (req ,res , next)=>{       //Silme route'u
+
+    const promise = Director.findByIdAndRemove(req.params.director_id);
+
+    promise.then((director)=>{
+        if(!director)
+            next({message:'The movie was not found' , code : 2345});
+
+        res.json(director);
+
+    }).catch((err)=>{
+        res.send(err);
+    });
+});
+
+
 
 
 module.exports = router;

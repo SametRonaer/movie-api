@@ -90,7 +90,7 @@ router.delete('/:movie_id' , (req ,res , next)=>{       //Silme route'u
 
 router.put('/:movie_id' , (req ,res , next)=>{  //Guncelleme route'u
 
-    const promise = Movie.findByIdAndUpdate( //Fonsiyon burada calismiyor neden bilmiyorum?
+    const promise = Movie.findByIdAndUpdate(
         req.params.movie_id ,
         req.body,           //İlki guncelleme yapilacak film ikinci guncellenecek data
         { new: true});

@@ -14,6 +14,13 @@ const app = express();
 //db connection
 const db = require('./helper/db.js')();  // Dahil ettigimiz moduldeki fonksiyounu calistirmak icin () kullandik
 
+//Config Json Web Token Secret Key dahil edildi
+const config = require('./config.js');
+app.set('api_secret_key' , config.api_secret_key); // Heryerde kullanabilmek icin secret keyi ayarlama yaptik
+
+//Middleware
+const verifyToken = require('./middleware/verify-token');
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -26,6 +33,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/api' , verifyToken);  // Butun endpointler icin kullanima actik verify kismini
 app.use('/api/movies', movie);
 app.use('/api/directors', director)
 

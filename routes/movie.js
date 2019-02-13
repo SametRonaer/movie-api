@@ -126,6 +126,8 @@ router.put('/:movie_id' , (req ,res , next)=>{  //Guncelleme route'u
 
 
 
+
+
 router.post('/',(req, res, next) =>{
   //const {title , imdb_score , category , country ,year} =req.body; //Post ile gonderilen datayı bu body nesnesi ile aliyoruz
 

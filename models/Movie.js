@@ -27,6 +27,7 @@ const MovieSchema = new Schema({
         max: 10 ,
         min : 0
     },
+    director_id : Number,
     createdAt:{
         type: Date,
         default: Date.now()

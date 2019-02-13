@@ -40,7 +40,9 @@ describe('api/movies tests' , ()=>{
             title : 'No countrymen',
             imdb_score : '7.6',
             category : 'Action',
-            year : '2006'
+            year : '2006',
+            director_id: '112'
+
         };
 
        it('it should post a movie' , (done)=>{
@@ -62,7 +64,7 @@ describe('api/movies tests' , ()=>{
        }) ;
     });
 
-    describe('/GET director id movie' , ()=>{
+    describe('/GET movie id movie' , ()=>{
        it('it should get movies by director id' , (done)=>{
           chai.request(server)
               .get('/api/movies/' + movieId)
@@ -79,6 +81,59 @@ describe('api/movies tests' , ()=>{
               });
        });
     });
+
+    describe('/PUT/:movieId movies' , ()=>{
+        const movie = {
+            title : 'Crash',
+            imdb_score : '5.5',
+            category : 'Action',
+            year : '2012',
+            director_id: '22222'
+        };
+
+        it('it should update a movie' , (done)=>{
+            chai.request(server)
+                .put('/api/movies/'+ movieId)
+                .send(movie)
+                .set('x-access-token' , token)
+                .end((err,res)=>{
+                    res.should.have.status(200);
+                    res.should.be.a('object');
+                    console.log(res)
+                    res.body.should.have.property('title').eql(movie.title);
+                    res.body.should.have.property('director_id').eql(movie.director_id);
+                    res.body.should.have.property('imdb_score').eql(movie.imdb_score);
+                    res.body.should.have.property('category').eql(movie.category);
+                    res.body.should.have.property('year').eql(movie.year);
+
+
+
+                    done();
+                });
+        }) ;
+    });
+
+    describe('/DELETE/:movieId movies' , ()=>{
+        const movie = {
+            title : 'Crash',
+            imdb_score : '5.5',
+            category : 'Action',
+            year : '2012',
+            director_id: '22222'
+        };
+
+        it('it should delete a movie' , (done)=>{
+            chai.request(server)
+                .delete('/api/movies/'+ movieId)
+                .set('x-access-token' , token)
+                .end((err,res)=>{
+                    res.should.have.status(200);
+                    res.should.be.a('object');
+                    done();
+                });
+        }) ;
+    });
+
 
 
 });
